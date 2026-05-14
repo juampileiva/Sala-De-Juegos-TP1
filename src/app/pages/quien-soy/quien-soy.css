@@ -1,0 +1,27 @@
+.perfil {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.perfil img {
+  width: 145px;
+  height: 145px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #f59e0b;
+}
+
+.juego p,
+.perfil p {
+  color: #d1d5db;
+  line-height: 1.5;
+}
+
+@media (max-width: 650px) {
+  .perfil {
+    flex-direction: column;
+    text-align: center;
+  }
+}

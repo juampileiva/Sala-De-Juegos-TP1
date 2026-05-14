@@ -1,0 +1,42 @@
+.barra {
+  min-height: 72px;
+  padding: 0 6%;
+  background: #0f172a;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.marca {
+  font-size: 22px;
+  font-weight: bold;
+  color: #f59e0b;
+}
+
+nav {
+  display: flex;
+  gap: 18px;
+}
+
+nav a {
+  color: #e5e7eb;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #f59e0b;
+}
+
+@media (max-width: 700px) {
+  .barra {
+    flex-direction: column;
+    padding: 18px;
+    gap: 14px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
