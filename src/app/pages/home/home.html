@@ -1,36 +1,65 @@
-<section class="pagina">
-  <h1>Sala de Juegos</h1>
+<section class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-9">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4 p-md-5 text-center">
+          <h1 class="display-5 fw-bold mb-3">Sala de Juegos</h1>
 
-  <p class="subtitulo">
-    Aplicación desarrollada en Angular para acceder a distintos juegos, registrar usuarios
-    y consultar los resultados obtenidos por cada jugador.
-  </p>
+          <p class="lead mb-4">
+            Aplicación desarrollada en Angular para acceder a una sala de juegos,
+            registrar usuarios y consultar información del proyecto.
+          </p>
 
-  <div class="acciones">
-    <a class="boton" routerLink="/login">Iniciar sesión</a>
-    <a class="boton secundario" routerLink="/registro">Registrarse</a>
-    <a class="boton secundario" routerLink="/quien-soy">Ver quién soy</a>
-  </div>
+          <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
+            <a class="btn btn-primary btn-lg" routerLink="/login">
+              Iniciar sesión
+            </a>
 
-  <div class="grilla">
-    <article class="tarjeta">
-      <h3>Ahorcado</h3>
-      <p>Juego de palabras donde se deben seleccionar letras para descubrir la palabra oculta.</p>
-    </article>
+            <a class="btn btn-outline-primary btn-lg" routerLink="/registro">
+              Registrarse
+            </a>
 
-    <article class="tarjeta">
-      <h3>Mayor o menor</h3>
-      <p>El jugador debe adivinar si la siguiente carta será mayor o menor.</p>
-    </article>
+            <a class="btn btn-outline-secondary btn-lg" routerLink="/quien-soy">
+              Ver quién soy
+            </a>
+          </div>
+        </div>
+      </div>
 
-    <article class="tarjeta">
-      <h3>Preguntados</h3>
-      <p>Juego de preguntas con opciones para medir conocimientos generales.</p>
-    </article>
+      <div class="row mt-4 g-3">
+        <div class="col-12 col-md-4">
+          <div class="card h-100 shadow-sm border-0 rounded-4">
+            <div class="card-body">
+              <h3 class="h5 fw-bold">Navegación</h3>
+              <p class="mb-0">
+                La aplicación permite moverse entre las pantallas principales mediante rutas de Angular.
+              </p>
+            </div>
+          </div>
+        </div>
 
-    <article class="tarjeta">
-      <h3>No explotes</h3>
-      <p>Juego propio basado en riesgo, puntaje y decisiones rápidas.</p>
-    </article>
+        <div class="col-12 col-md-4">
+          <div class="card h-100 shadow-sm border-0 rounded-4">
+            <div class="card-body">
+              <h3 class="h5 fw-bold">Registro</h3>
+              <p class="mb-0">
+                Pantalla preparada para que los usuarios puedan completar sus datos de acceso.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="card h-100 shadow-sm border-0 rounded-4">
+            <div class="card-body">
+              <h3 class="h5 fw-bold">Quién Soy</h3>
+              <p class="mb-0">
+                Se muestra información personal del alumno y datos obtenidos desde GitHub.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>

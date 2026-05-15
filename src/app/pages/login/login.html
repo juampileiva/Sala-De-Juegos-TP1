@@ -1,25 +1,45 @@
-<section class="pagina">
-  <h1>Iniciar sesión</h1>
+<section class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-5">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+          <h1 class="h2 fw-bold text-center mb-3">Iniciar sesión</h1>
 
-  <p class="subtitulo">
-    Ingresá con tu correo y contraseña para acceder a los juegos de la sala.
-  </p>
+          <p class="text-center mb-4">
+            Ingresá con tu correo y contraseña para acceder a la sala.
+          </p>
 
-  <form class="formulario">
-    <label>Correo</label>
-    <input type="email" placeholder="Ingrese su correo">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Correo</label>
+              <input
+                class="form-control"
+                type="email"
+                placeholder="Ingrese su correo"
+              >
+            </div>
 
-    <label>Contraseña</label>
-    <input type="password" placeholder="Ingrese su contraseña">
+            <div class="mb-4">
+              <label class="form-label">Contraseña</label>
+              <input
+                class="form-control"
+                type="password"
+                placeholder="Ingrese su contraseña"
+              >
+            </div>
 
-    <button class="boton" type="button">Ingresar</button>
-  </form>
+            <button class="btn btn-primary w-100" type="button">
+              Ingresar
+            </button>
+          </form>
 
-  <h2>Accesos rápidos</h2>
-
-  <div class="acciones">
-    <button class="boton secundario" type="button">Jugador 1</button>
-    <button class="boton secundario" type="button">Jugador 2</button>
-    <button class="boton secundario" type="button">Jugador 3</button>
+          <div class="text-center mt-4">
+            <a routerLink="/registro" class="link-primary">
+              ¿No tenés cuenta? Registrate
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
