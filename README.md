@@ -1,59 +1,75 @@
-# SalaDeJuegos
+# Sala de Juegos - TP #1
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+Alumno: Juan Pablo Leiva  
+Materia: Programación IV  
+Carrera: Tecnicatura Universitaria en Programación  
+Universidad: UTN Avellaneda  
 
-## Development server
+## Deploy
 
-To start a local development server, run:
+Link: PENDIENTE
 
-```bash
-ng serve
-```
+## Repositorio
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Repositorio GitHub: https://github.com/juampileiva/Sala-De-Juegos-TP1
 
-## Code scaffolding
+## Tecnologías utilizadas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Angular
+- TypeScript
+- HTML
+- CSS
+- Supabase
+- Vercel
+- Git / GitHub
 
-```bash
-ng generate component component-name
-```
+## Descripción del proyecto
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Aplicación web desarrollada para el Trabajo Práctico #1 de Programación IV.  
+La aplicación corresponde a una Sala de Juegos, donde los usuarios podrán registrarse, iniciar sesión, jugar distintos juegos, utilizar un chat en tiempo real y consultar resultados.
 
-```bash
-ng generate --help
-```
+## Sprints
 
-## Building
+### Sprint #1
 
-To build the project run:
+Se desarrollan los componentes iniciales de la aplicación:
 
-```bash
-ng build
-```
+- Home / Bienvenida
+- Login
+- Registro
+- Quién Soy
+- Navegación entre pantallas
+- Consumo de datos desde GitHub API
+- Favicon personalizado
+- Deploy inicial
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Sprint #2
 
-## Running unit tests
+Se agrega autenticación funcional:
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+- Login con email y contraseña
+- Registro de usuarios
+- Cierre de sesión
+- Guards de rutas privadas
+- Accesos rápidos para testing
+- Home condicional según el estado de sesión
 
-```bash
-ng test
-```
+### Sprint #3
 
-## Running end-to-end tests
+Se agregan los primeros juegos y el chat:
 
-For end-to-end (e2e) testing, run:
+- Ahorcado
+- Mayor o Menor
+- Chat global en tiempo real
+- Persistencia de resultados en base de datos
 
-```bash
-ng e2e
-```
+### Sprint #4
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Se completan los juegos y resultados:
 
-## Additional Resources
+- Preguntados con API externa
+- Juego propio
+- Guardado de resultados
+- Tablas de resultados ordenadas por desempeño
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+ 
