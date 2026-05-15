@@ -7,7 +7,7 @@ Universidad: UTN Avellaneda
 
 ## Deploy
 
-Link: PENDIENTE
+Link: https://sala-de-juegos-tp-1.vercel.app/
 
 ## Repositorio
 
