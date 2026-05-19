@@ -1,72 +1,67 @@
-<section class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-8 col-lg-6">
-      <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-body p-4">
-          <h1 class="h2 fw-bold text-center mb-3">Registro</h1>
+<section class="pagina">
+  <h1>Registro</h1>
 
-          <p class="text-center mb-4">
-            Completá los datos para crear un usuario y poder acceder a la sala de juegos.
-          </p>
+  <p class="subtitulo">
+    Creá tu cuenta para acceder a la Sala de Juegos.
+  </p>
 
-          <form>
-            <div class="mb-3">
-              <label class="form-label">Correo</label>
-              <input
-                class="form-control"
-                type="email"
-                placeholder="Ingrese su correo"
-              >
-            </div>
+  <form class="formulario">
+    <label>Correo</label>
+    <input
+      type="email"
+      [(ngModel)]="email"
+      name="email"
+      placeholder="Ingrese su correo"
+      [disabled]="cargando"
+    >
 
-            <div class="mb-3">
-              <label class="form-label">Nombre</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Ingrese su nombre"
-              >
-            </div>
+    <label>Nombre</label>
+    <input
+      type="text"
+      [(ngModel)]="nombre"
+      name="nombre"
+      placeholder="Ingrese su nombre"
+      [disabled]="cargando"
+    >
 
-            <div class="mb-3">
-              <label class="form-label">Apellido</label>
-              <input
-                class="form-control"
-                type="text"
-                placeholder="Ingrese su apellido"
-              >
-            </div>
+    <label>Apellido</label>
+    <input
+      type="text"
+      [(ngModel)]="apellido"
+      name="apellido"
+      placeholder="Ingrese su apellido"
+      [disabled]="cargando"
+    >
 
-            <div class="mb-3">
-              <label class="form-label">Edad</label>
-              <input
-                class="form-control"
-                type="number"
-                placeholder="Ingrese su edad"
-              >
-            </div>
+    <label>Edad</label>
+    <input
+      type="number"
+      [(ngModel)]="edad"
+      name="edad"
+      placeholder="Ingrese su edad"
+      [disabled]="cargando"
+    >
 
-            <div class="mb-4">
-              <label class="form-label">Contraseña</label>
-              <input
-                class="form-control"
-                type="password"
-                placeholder="Ingrese su contraseña"
-              >
-            </div>
+    <label>Contraseña</label>
+    <input
+      type="password"
+      [(ngModel)]="password"
+      name="password"
+      placeholder="Ingrese su contraseña"
+      [disabled]="cargando"
+    >
 
-            <button class="btn btn-primary w-100" type="button">
-              Registrarse
-            </button>
-          </form>
+    <button
+      class="boton"
+      type="button"
+      (click)="registrar()"
+      [disabled]="cargando"
+    >
+      {{ cargando ? 'Registrando...' : 'Registrarse' }}
+    </button>
+  </form>
 
-          <div class="text-center mt-4">
-            <a routerLink="/login" class="link-primary">
-              Ya tengo cuenta
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <p class="mensaje" *ngIf="mensaje">
+    {{ mensaje }}
+  </p>
 </section>
