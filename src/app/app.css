@@ -1,7 +1,7 @@
 .barra {
   min-height: 72px;
   padding: 0 6%;
-  background: #0f172a;
+  background: #0b1220;
   border-bottom: 1px solid #334155;
   display: flex;
   align-items: center;
@@ -9,34 +9,85 @@
 }
 
 .marca {
-  font-size: 22px;
-  font-weight: bold;
   color: #f59e0b;
+  font-size: 23px;
+  font-weight: 800;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-nav {
+.logo-app {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #f59e0b;
+}
+
+.nav {
   display: flex;
+  align-items: center;
   gap: 18px;
 }
 
-nav a {
-  color: #e5e7eb;
-  font-weight: bold;
+.nav a {
+  color: #f8fafc;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 14px;
 }
 
-nav a:hover {
+.nav a:hover {
   color: #f59e0b;
 }
 
-@media (max-width: 700px) {
+.usuario-header {
+  color: #cbd5e1;
+  font-size: 13px;
+  border-left: 1px solid #475569;
+  padding-left: 14px;
+  max-width: 190px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.salir {
+  background: transparent;
+  color: #f59e0b;
+  border: 1px solid #f59e0b;
+  border-radius: 9px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.salir:hover {
+  background: #f59e0b;
+  color: #111827;
+}
+
+.contenido-principal {
+  min-height: calc(100vh - 72px);
+}
+
+@media (max-width: 760px) {
   .barra {
     flex-direction: column;
-    padding: 18px;
     gap: 14px;
+    padding: 16px;
   }
 
-  nav {
-    flex-wrap: wrap;
+  .nav {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 13px;
+  }
+
+  .usuario-header {
+    border-left: none;
+    padding-left: 0;
   }
 }

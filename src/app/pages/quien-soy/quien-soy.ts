@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
+import { GithubService } from '../../services/github';
+
 @Component({
   selector: 'app-quien-soy',
   imports: [CommonModule],
@@ -8,13 +10,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './quien-soy.css'
 })
 export class QuienSoy implements OnInit {
-  usuario: any;
+  usuario: any = null;
+  cargando = true;
+  mensaje = '';
 
-  ngOnInit() {
-    fetch('https://api.github.com/users/juampileiva')
-      .then((respuesta) => respuesta.json())
-      .then((datos) => {
-        this.usuario = datos;
-      });
+  constructor(private githubService: GithubService) {}
+
+  async ngOnInit() {
+    await this.cargarDatosGithub();
+  }
+
+  async cargarDatosGithub() {
+    try {
+      this.usuario = await this.githubService.obtenerUsuario();
+    } catch (error) {
+      this.mensaje = 'Ocurrió un error al conectar con GitHub.';
+    } finally {
+      this.cargando = false;
+    }
   }
 }

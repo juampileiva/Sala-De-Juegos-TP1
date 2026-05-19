@@ -1,65 +1,77 @@
-<section class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-lg-9">
-      <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-body p-4 p-md-5 text-center">
-          <h1 class="display-5 fw-bold mb-3">Sala de Juegos</h1>
+<section class="container home-contenedor">
+  <div class="home-hero">
+    <div class="home-texto">
+      <span class="etiqueta">Programación IV - Sala de Juegos</span>
 
-          <p class="lead mb-4">
-            Aplicación desarrollada en Angular para acceder a una sala de juegos,
-            registrar usuarios y consultar información del proyecto.
-          </p>
+      <h1>Bienvenido a la Sala de Juegos</h1>
 
-          <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
-            <a class="btn btn-primary btn-lg" routerLink="/login">
-              Iniciar sesión
-            </a>
+      <p>
+        En esta aplicación los jugadores pueden ingresar, registrarse y acceder
+        a distintos juegos. La idea del TP es guardar la información importante
+        de cada partida para luego mostrar resultados y estadísticas.
+      </p>
 
-            <a class="btn btn-outline-primary btn-lg" routerLink="/registro">
-              Registrarse
-            </a>
-
-            <a class="btn btn-outline-secondary btn-lg" routerLink="/quien-soy">
-              Ver quién soy
-            </a>
-          </div>
-        </div>
+      <div class="acciones" *ngIf="!estaLogueado">
+        <a routerLink="/login" class="btn btn-primary">Iniciar sesión</a>
+        <a routerLink="/registro" class="btn btn-outline-warning">Crear cuenta</a>
       </div>
 
-      <div class="row mt-4 g-3">
-        <div class="col-12 col-md-4">
-          <div class="card h-100 shadow-sm border-0 rounded-4">
-            <div class="card-body">
-              <h3 class="h5 fw-bold">Navegación</h3>
-              <p class="mb-0">
-                La aplicación permite moverse entre las pantallas principales mediante rutas de Angular.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-4">
-          <div class="card h-100 shadow-sm border-0 rounded-4">
-            <div class="card-body">
-              <h3 class="h5 fw-bold">Registro</h3>
-              <p class="mb-0">
-                Pantalla preparada para que los usuarios puedan completar sus datos de acceso.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-4">
-          <div class="card h-100 shadow-sm border-0 rounded-4">
-            <div class="card-body">
-              <h3 class="h5 fw-bold">Quién Soy</h3>
-              <p class="mb-0">
-                Se muestra información personal del alumno y datos obtenidos desde GitHub.
-              </p>
-            </div>
-          </div>
+      <div class="usuario-activo" *ngIf="estaLogueado">
+        <div>
+          <span>Usuario logueado</span>
+          <strong>{{ nombreUsuario }}</strong>
         </div>
       </div>
     </div>
+
+    
   </div>
+
+  <div class="seccion">
+    <div class="titulo-seccion">
+      <h2>Juegos disponibles</h2>
+      <p>
+        Desde esta pantalla se accede a los juegos principales del TP.
+      </p>
+    </div>
+
+    <div class="grilla">
+      <a
+        class="card tarjeta-juego"
+        *ngFor="let juego of juegos"
+        [routerLink]="estaLogueado ? juego.ruta : '/login'"
+      >
+        <div class="icono-juego">{{ juego.inicial }}</div>
+
+        <div>
+          <h3>{{ juego.nombre }}</h3>
+          <p>{{ juego.descripcion }}</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="seccion">
+    <div class="titulo-seccion">
+      <h2>Listados y sala</h2>
+      <p>
+        Accesos para consultar información y participar dentro de la aplicación.
+      </p>
+    </div>
+
+    <div class="grilla grilla-listados">
+      <a
+        class="card tarjeta-listado"
+        *ngFor="let listado of listados"
+        [routerLink]="estaLogueado ? listado.ruta : '/login'"
+      >
+        <h3>{{ listado.nombre }}</h3>
+        <p>{{ listado.descripcion }}</p>
+      </a>
+    </div>
+  </div>
+
+  <p class="aviso-login" *ngIf="!estaLogueado">
+    Para jugar, consultar resultados o usar el chat, primero tenés que iniciar sesión.
+  </p>
 </section>

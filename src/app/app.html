@@ -1,14 +1,28 @@
 <header class="barra">
-  <div class="marca">
-    Sala de Juegos
-  </div>
+  <a class="marca" routerLink="/">
+    <img src="/favicon.jpg" alt="Logo Sala de Juegos" class="logo-app">
+    <span>Sala de Juegos</span>
+  </a>
 
-  <nav>
-    <a routerLink="/home">Inicio</a>
-    <a routerLink="/login">Login</a>
-    <a routerLink="/registro">Registro</a>
-    <a routerLink="/quien-soy">Quién Soy</a>
+  <nav class="nav">
+    <a routerLink="/">Inicio</a>
+    <a routerLink="/quien-soy">Quién soy</a>
+
+    <ng-container *ngIf="!estaLogueado">
+      <a routerLink="/login">Iniciar sesión</a>
+      <a routerLink="/registro">Registro</a>
+    </ng-container>
+
+    <ng-container *ngIf="estaLogueado">
+      <span class="usuario-header">{{ nombreUsuario }}</span>
+
+      <button type="button" class="salir" (click)="cerrarSesion()">
+        Cerrar sesión
+      </button>
+    </ng-container>
   </nav>
 </header>
 
-<router-outlet></router-outlet>
+<main class="contenido-principal">
+  <router-outlet></router-outlet>
+</main>

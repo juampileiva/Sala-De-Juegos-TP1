@@ -1,53 +1,81 @@
-<section class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-lg-9">
-      <div class="card shadow-lg border-0 rounded-4 mb-4" *ngIf="usuario">
-        <div class="card-body p-4">
-          <h1 class="h2 fw-bold text-center mb-4">Quién Soy</h1>
+<section class="container quien-contenedor">
+  <div class="card p-4 perfil-card">
+    <span class="etiqueta">Presentación del alumno</span>
 
-          <div class="row align-items-center g-4">
-            <div class="col-12 col-md-4 text-center">
-              <img
-                class="img-fluid rounded-circle border border-3"
-                [src]="usuario.avatar_url"
-                alt="Foto de perfil"
-                style="max-width: 160px;"
-              >
-            </div>
+    <h1>Quién soy</h1>
 
-            <div class="col-12 col-md-8">
-              <h2 class="h4 fw-bold">{{ usuario.name || usuario.login }}</h2>
+    <p class="intro">
+      Esta sección cumple con la consigna del Sprint 1: mostrar mis datos,
+      traer información desde la API pública de GitHub y explicar el juego propio
+      elegido para la Sala de Juegos.
+    </p>
 
-              <p class="mb-2">
-                <strong>Usuario de GitHub:</strong> {{ usuario.login }}
-              </p>
+    <div *ngIf="cargando" class="alerta-info">
+      Cargando datos desde GitHub...
+    </div>
 
-              <p class="mb-2">
-                <strong>Repositorios públicos:</strong> {{ usuario.public_repos }}
-              </p>
+    <div *ngIf="mensaje" class="alerta-error">
+      {{ mensaje }}
+    </div>
 
-              <p class="mb-0">
-                <strong>Perfil:</strong> {{ usuario.html_url }}
-              </p>
-            </div>
-          </div>
+    <div *ngIf="usuario && !cargando" class="perfil">
+      <img [src]="usuario.avatar_url" alt="Foto de perfil de GitHub">
+
+      <div class="datos-perfil">
+        <h2>{{ usuario.name || usuario.login }}</h2>
+
+        <div class="dato">
+          <span>Usuario de GitHub</span>
+          <strong>{{ usuario.login }}</strong>
+        </div>
+
+        <div class="dato">
+          <span>Repositorios públicos</span>
+          <strong>{{ usuario.public_repos }}</strong>
+        </div>
+
+        <div class="dato">
+          <span>Perfil</span>
+          <a [href]="usuario.html_url" target="_blank">
+            {{ usuario.html_url }}
+          </a>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="card shadow-sm border-0 rounded-4">
-        <div class="card-body p-4">
-          <h2 class="h4 fw-bold">Juego propio: No explotes</h2>
+  <div class="card p-4 juego-card">
+    <span class="etiqueta">Juego propio</span>
 
-          <p>
-            El juego consiste en avanzar por rondas tomando decisiones de riesgo.
-            En cada turno el jugador puede sumar puntos o perder la partida si explota.
-          </p>
+    <h2>No explotes modo timba</h2>
 
-          <p class="mb-0">
-            El objetivo es conseguir el mayor puntaje posible sin explotar.
-            El jugador puede seguir arriesgando o plantarse para conservar sus puntos.
-          </p>
-        </div>
+    <p>
+      Elegí este juego porque quería hacer algo distinto a los juegos clásicos
+      que no estaban permitidos por la consigna. La idea principal es que el
+      jugador tenga que decidir entre arriesgarse para sumar más puntos o
+      plantarse para conservar lo conseguido.
+    </p>
+
+    <p>
+      La partida se divide en rondas. En cada ronda el jugador puede avanzar y
+      sumar puntaje, pero también existe la posibilidad de que aparezca una bomba
+      y pierda la partida. Por eso el juego mezcla azar, riesgo y toma de decisiones.
+    </p>
+
+    <div class="reglas">
+      <div>
+        <strong>Victoria</strong>
+        <span>El jugador gana si decide plantarse y conserva los puntos acumulados.</span>
+      </div>
+
+      <div>
+        <strong>Derrota</strong>
+        <span>El jugador pierde si explota durante una ronda.</span>
+      </div>
+
+      <div>
+        <strong>Puntaje</strong>
+        <span>Se calcula según las rondas superadas y el riesgo asumido.</span>
       </div>
     </div>
   </div>

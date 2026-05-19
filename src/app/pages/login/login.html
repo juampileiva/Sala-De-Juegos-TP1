@@ -1,45 +1,86 @@
-<section class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-8 col-lg-5">
-      <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-body p-4">
-          <h1 class="h2 fw-bold text-center mb-3">Iniciar sesión</h1>
+<section class="container login-contenedor">
+  <div class="login-layout">
+    <div class="login-info">
+      <span class="etiqueta">Sala de Juegos</span>
 
-          <p class="text-center mb-4">
-            Ingresá con tu correo y contraseña para acceder a la sala.
-          </p>
+      <h1>Iniciar sesión</h1>
 
-          <form>
-            <div class="mb-3">
-              <label class="form-label">Correo</label>
-              <input
-                class="form-control"
-                type="email"
-                placeholder="Ingrese su correo"
-              >
-            </div>
+      <p>
+        Ingresá con tu cuenta para acceder a los juegos, guardar tus resultados
+        y participar como jugador registrado.
+      </p>
 
-            <div class="mb-4">
-              <label class="form-label">Contraseña</label>
-              <input
-                class="form-control"
-                type="password"
-                placeholder="Ingrese su contraseña"
-              >
-            </div>
-
-            <button class="btn btn-primary w-100" type="button">
-              Ingresar
-            </button>
-          </form>
-
-          <div class="text-center mt-4">
-            <a routerLink="/registro" class="link-primary">
-              ¿No tenés cuenta? Registrate
-            </a>
-          </div>
+      <div class="beneficios">
+        <div>
+          <strong>Usuarios registrados</strong>
+          <span>Los datos quedan asociados a cada jugador.</span>
         </div>
+
+        <div>
+          <strong>Accesos rápidos</strong>
+          <span>Permiten probar la aplicación más fácilmente.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-4 formulario-card">
+      <h2>Acceso</h2>
+
+      <form (ngSubmit)="ingresar()">
+        <div class="campo">
+          <label class="form-label" for="email">Correo</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            class="form-control"
+            [(ngModel)]="email"
+            autocomplete="email"
+            placeholder="usuario@correo.com"
+          >
+        </div>
+
+        <div class="campo">
+          <label class="form-label" for="password">Contraseña</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            class="form-control"
+            [(ngModel)]="password"
+            autocomplete="current-password"
+            placeholder="Ingresá tu contraseña"
+          >
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" [disabled]="cargando">
+          {{ cargando ? 'Ingresando...' : 'Ingresar' }}
+        </button>
+      </form>
+
+      <button type="button" class="btn btn-outline-warning w-100 mt-3" (click)="toggleRapidos()">
+        {{ mostrarRapidos ? 'Ocultar accesos rápidos' : 'Accesos rápidos' }}
+      </button>
+
+      <div class="usuarios-rapidos mt-3" *ngIf="mostrarRapidos">
+        <button
+          type="button"
+          class="usuario-rapido"
+          *ngFor="let usuario of usuariosRapidos"
+          (click)="cargarUsuarioRapido(usuario.email, usuario.password)"
+        >
+          {{ usuario.texto }}
+        </button>
       </div>
     </div>
   </div>
 </section>
+
+<app-modal
+  [visible]="modalVisible"
+  [titulo]="modalTitulo"
+  [mensaje]="modalMensaje"
+  [tipo]="modalTipo"
+  (cerrar)="cerrarModal()"
+>
+</app-modal>
