@@ -1,75 +1,191 @@
-.home {
-  display: grid;
-  gap: 28px;
+.home-contenedor {
+  padding-top: 35px;
 }
 
-.presentacion {
-  max-width: 820px;
+.home-hero {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 28px;
+  align-items: center;
+  margin-bottom: 34px;
 }
 
 .etiqueta {
-  color: #f59e0b;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.presentacion h1 {
-  font-size: 42px;
-  margin: 0 0 14px;
-}
-
-.panel-usuario {
-  margin-top: 24px;
-  padding: 18px;
-  border-radius: 14px;
-  background: #111827;
-  border: 1px solid #374151;
-}
-
-.panel-usuario span {
-  display: block;
-  color: #9ca3af;
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  padding: 8px 13px;
+  border-radius: 999px;
+  font-weight: 800;
+  margin-bottom: 16px;
   font-size: 14px;
+}
+
+.home-texto h1 {
+  font-size: 42px;
+  line-height: 1.08;
+  font-weight: 900;
+  margin-bottom: 16px;
+}
+
+.home-texto p {
+  color: #cbd5e1;
+  font-size: 17px;
+  line-height: 1.55;
+  max-width: 680px;
+  margin-bottom: 20px;
+}
+
+.acciones {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.acciones a {
+  text-decoration: none;
+}
+
+.usuario-activo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 16px;
+  max-width: 520px;
+}
+
+.usuario-activo span {
+  display: block;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 700;
   margin-bottom: 4px;
 }
 
-.panel-usuario strong {
-  color: #f9fafb;
+.usuario-activo strong {
+  color: #f59e0b;
+  font-size: 17px;
 }
 
-.panel-usuario p {
-  color: #d1d5db;
-  margin-bottom: 0;
+.resumen-card h2 {
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 14px;
 }
 
-.juego-card {
-  min-height: 180px;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+.resumen-card ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #cbd5e1;
+  line-height: 1.8;
 }
 
-.juego-card:hover {
-  transform: translateY(-4px);
+.seccion {
+  margin-top: 28px;
+}
+
+.titulo-seccion {
+  margin-bottom: 16px;
+}
+
+.titulo-seccion h2 {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+
+.titulo-seccion p {
+  color: #94a3b8;
+  margin: 0;
+}
+
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.tarjeta-juego,
+.tarjeta-listado {
+  padding: 18px;
+  text-decoration: none;
+  transition: all 0.22s ease;
+}
+
+.tarjeta-juego:hover,
+.tarjeta-listado:hover {
+  transform: translateY(-3px);
   border-color: #f59e0b;
 }
 
-.juego-card span {
-  display: inline-flex;
-  width: 38px;
-  height: 38px;
+.icono-juego {
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
-  align-items: center;
-  justify-content: center;
   background: #f59e0b;
   color: #111827;
-  font-weight: bold;
-  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  margin-bottom: 14px;
 }
 
-.juego-card p {
-  color: #d1d5db;
-  line-height: 1.4;
+.tarjeta-juego h3,
+.tarjeta-listado h3 {
+  font-size: 19px;
+  font-weight: 900;
+  margin-bottom: 8px;
 }
 
-.destacado {
-  border-color: #f59e0b;
+.tarjeta-juego p,
+.tarjeta-listado p {
+  color: #cbd5e1;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.grilla-listados {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.aviso-login {
+  margin-top: 22px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #fbbf24;
+  border-radius: 14px;
+  padding: 14px;
+  font-weight: 700;
+}
+
+@media (max-width: 980px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .grilla {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .home-texto h1 {
+    font-size: 34px;
+  }
+
+  .grilla,
+  .grilla-listados {
+    grid-template-columns: 1fr;
+  }
+
+  .usuario-activo {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

@@ -1,0 +1,114 @@
+.login-contenedor {
+  padding-top: 42px;
+}
+
+.login-layout {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 34px;
+  align-items: center;
+}
+
+.etiqueta {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  padding: 8px 13px;
+  border-radius: 999px;
+  font-weight: 800;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.login-info h1 {
+  font-size: 44px;
+  line-height: 1.05;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.login-info p {
+  max-width: 560px;
+  color: #cbd5e1;
+  font-size: 17px;
+  line-height: 1.55;
+  margin-bottom: 22px;
+}
+
+.beneficios {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 13px;
+  max-width: 560px;
+}
+
+.beneficios div {
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.beneficios strong {
+  display: block;
+  color: #f8fafc;
+  margin-bottom: 6px;
+}
+
+.beneficios span {
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.formulario-card {
+  width: 100%;
+}
+
+.formulario-card h2 {
+  font-size: 26px;
+  font-weight: 900;
+  margin-bottom: 20px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.usuarios-rapidos {
+  display: grid;
+  gap: 10px;
+}
+
+.usuario-rapido {
+  width: 100%;
+  border: 1px solid #475569;
+  background: #020617;
+  color: #e5e7eb;
+  padding: 11px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.usuario-rapido:hover {
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+@media (max-width: 850px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .beneficios {
+    grid-template-columns: 1fr;
+  }
+
+  .login-info h1 {
+    font-size: 36px;
+  }
+}

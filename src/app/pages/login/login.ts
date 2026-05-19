@@ -2,21 +2,25 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { Modal } from '../../components/modal/modal';
 import { supabase } from '../../services/supabase';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Modal],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class Login {
   email = '';
   password = '';
-
-  mensaje = '';
   cargando = false;
   mostrarRapidos = false;
+
+  modalVisible = false;
+  modalTitulo = '';
+  modalMensaje = '';
+  modalTipo: 'exito' | 'error' | 'info' = 'info';
 
   usuariosRapidos = [
     { texto: 'Jugador 1', email: 'jugador1@test.com', password: '123456' },
@@ -25,12 +29,10 @@ export class Login {
   ];
 
   async ingresar() {
-    this.mensaje = '';
-
     const emailLimpio = this.email.trim().toLowerCase();
 
     if (!emailLimpio || !this.password) {
-      this.mensaje = 'Debe ingresar correo y contraseña.';
+      this.abrirModal('Datos incompletos', 'Debe ingresar correo y contraseña.', 'error');
       return;
     }
 
@@ -44,11 +46,15 @@ export class Login {
     this.cargando = false;
 
     if (error) {
-      this.mensaje = 'Correo o contraseña incorrectos.';
+      this.abrirModal('Error al iniciar sesión', 'Correo o contraseña incorrectos.', 'error');
       return;
     }
 
-    window.location.replace('/home');
+    this.abrirModal('Sesión iniciada', 'Ingresaste correctamente a la Sala de Juegos.', 'exito');
+
+    setTimeout(() => {
+      window.location.replace('/');
+    }, 900);
   }
 
   toggleRapidos() {
@@ -59,5 +65,16 @@ export class Login {
     this.email = email;
     this.password = password;
     this.mostrarRapidos = false;
+  }
+
+  abrirModal(titulo: string, mensaje: string, tipo: 'exito' | 'error' | 'info') {
+    this.modalTitulo = titulo;
+    this.modalMensaje = mensaje;
+    this.modalTipo = tipo;
+    this.modalVisible = true;
+  }
+
+  cerrarModal() {
+    this.modalVisible = false;
   }
 }

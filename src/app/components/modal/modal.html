@@ -1,0 +1,16 @@
+<div class="modal-fondo" *ngIf="visible">
+  <div
+    class="modal-caja"
+    [class.exito]="tipo === 'exito'"
+    [class.error]="tipo === 'error'"
+    [class.info]="tipo === 'info'"
+  >
+    <h3>{{ titulo }}</h3>
+
+    <p>{{ mensaje }}</p>
+
+    <button type="button" class="btn btn-primary" (click)="cerrarModal()">
+      Aceptar
+    </button>
+  </div>
+</div>

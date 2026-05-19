@@ -1,0 +1,97 @@
+.registro-contenedor {
+  padding-top: 42px;
+}
+
+.registro-layout {
+  display: grid;
+  grid-template-columns: 470px 1fr;
+  gap: 34px;
+  align-items: center;
+}
+
+.formulario-card {
+  width: 100%;
+}
+
+.formulario-card h1 {
+  font-size: 30px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.texto-ayuda {
+  color: #cbd5e1;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+
+.fila-formulario {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.etiqueta {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  padding: 8px 13px;
+  border-radius: 999px;
+  font-weight: 800;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.registro-info h2 {
+  font-size: 42px;
+  line-height: 1.08;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.registro-info p {
+  color: #cbd5e1;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.info-caja {
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 15px;
+  margin-top: 20px;
+  max-width: 460px;
+}
+
+.info-caja strong {
+  display: block;
+  margin-bottom: 7px;
+}
+
+.info-caja span {
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .registro-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .fila-formulario {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .registro-info h2 {
+    font-size: 34px;
+  }
+}

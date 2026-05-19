@@ -1,50 +1,77 @@
-<section class="pagina home">
-  <div class="presentacion">
-    <p class="etiqueta">Programación IV - TP Sala de Juegos</p>
+<section class="container home-contenedor">
+  <div class="home-hero">
+    <div class="home-texto">
+      <span class="etiqueta">Programación IV - Sala de Juegos</span>
 
-    <h1>Bienvenido a la Sala de Juegos</h1>
+      <h1>Bienvenido a la Sala de Juegos</h1>
 
-    <p class="subtitulo">
-      Poné a prueba tu mente y divertite con distintos juegos interactivos.
-    </p>
+      <p>
+        En esta aplicación los jugadores pueden ingresar, registrarse y acceder
+        a distintos juegos. La idea del TP es guardar la información importante
+        de cada partida para luego mostrar resultados y estadísticas.
+      </p>
 
-    <div class="acciones" *ngIf="!estaLogueado">
-      <a class="boton" routerLink="/login">Iniciar sesión</a>
-      <a class="boton secundario" routerLink="/registro">Crear cuenta</a>
-    </div>
-
-    <div class="panel-usuario" *ngIf="estaLogueado">
-      <div>
-        <span>Sesión iniciada</span>
-        <strong>{{ emailUsuario }}</strong>
+      <div class="acciones" *ngIf="!estaLogueado">
+        <a routerLink="/login" class="btn btn-primary">Iniciar sesión</a>
+        <a routerLink="/registro" class="btn btn-outline-warning">Crear cuenta</a>
       </div>
-      
+
+      <div class="usuario-activo" *ngIf="estaLogueado">
+        <div>
+          <span>Usuario logueado</span>
+          <strong>{{ nombreUsuario }}</strong>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+
+  <div class="seccion">
+    <div class="titulo-seccion">
+      <h2>Juegos disponibles</h2>
+      <p>
+        Desde esta pantalla se accede a los juegos principales del TP.
+      </p>
+    </div>
+
+    <div class="grilla">
+      <a
+        class="card tarjeta-juego"
+        *ngFor="let juego of juegos"
+        [routerLink]="estaLogueado ? juego.ruta : '/login'"
+      >
+        <div class="icono-juego">{{ juego.inicial }}</div>
+
+        <div>
+          <h3>{{ juego.nombre }}</h3>
+          <p>{{ juego.descripcion }}</p>
+        </div>
+      </a>
     </div>
   </div>
 
-  <div class="grilla juegos">
-    <article class="tarjeta juego-card">
-      <span>A</span>
-      <h3>Ahorcado</h3>
-      <p>Descubrí la palabra oculta seleccionando letras.</p>
-    </article>
+  <div class="seccion">
+    <div class="titulo-seccion">
+      <h2>Listados y sala</h2>
+      <p>
+        Accesos para consultar información y participar dentro de la aplicación.
+      </p>
+    </div>
 
-    <article class="tarjeta juego-card">
-      <span>M</span>
-      <h3>Mayor o menor</h3>
-      <p>Adiviná si la próxima carta será mayor o menor.</p>
-    </article>
-
-    <article class="tarjeta juego-card">
-      <span>P</span>
-      <h3>Preguntados</h3>
-      <p>Respondé preguntas y sumá puntos por aciertos.</p>
-    </article>
-
-    <article class="tarjeta juego-card">
-      <span>N</span>
-      <h3>No explotes</h3>
-      <p>Arriesgá puntos ronda a ronda sin explotar.</p>
-    </article>
+    <div class="grilla grilla-listados">
+      <a
+        class="card tarjeta-listado"
+        *ngFor="let listado of listados"
+        [routerLink]="estaLogueado ? listado.ruta : '/login'"
+      >
+        <h3>{{ listado.nombre }}</h3>
+        <p>{{ listado.descripcion }}</p>
+      </a>
+    </div>
   </div>
+
+  <p class="aviso-login" *ngIf="!estaLogueado">
+    Para jugar, consultar resultados o usar el chat, primero tenés que iniciar sesión.
+  </p>
 </section>

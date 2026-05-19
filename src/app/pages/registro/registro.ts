@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
+import { Modal } from '../../components/modal/modal';
 import { supabase } from '../../services/supabase';
 
 @Component({
   selector: 'app-registro',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Modal],
   templateUrl: './registro.html',
   styleUrl: './registro.css'
 })
@@ -16,26 +18,30 @@ export class Registro {
   apellido = '';
   edad: number | null = null;
   password = '';
-
-  mensaje = '';
   cargando = false;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  modalVisible = false;
+  modalTitulo = '';
+  modalMensaje = '';
+  modalTipo: 'exito' | 'error' | 'info' = 'info';
+
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {}
 
   async registrar() {
-    this.mensaje = '';
-
     const emailLimpio = this.email.trim().toLowerCase();
     const nombreLimpio = this.nombre.trim();
     const apellidoLimpio = this.apellido.trim();
 
     if (!emailLimpio || !nombreLimpio || !apellidoLimpio || !this.edad || !this.password) {
-      this.mensaje = 'Todos los campos son obligatorios.';
+      this.abrirModal('Datos incompletos', 'Todos los campos son obligatorios.', 'error');
       return;
     }
 
     if (this.password.length < 6) {
-      this.mensaje = 'La contraseña debe tener al menos 6 caracteres.';
+      this.abrirModal('Contraseña inválida', 'La contraseña debe tener al menos 6 caracteres.', 'error');
       return;
     }
 
@@ -50,7 +56,7 @@ export class Registro {
         .maybeSingle();
 
       if (usuarioExistente) {
-        this.mensaje = 'Ya existe un usuario registrado con ese correo.';
+        this.abrirModal('Usuario existente', 'Ya existe un usuario registrado con ese correo.', 'error');
         return;
       }
 
@@ -60,19 +66,19 @@ export class Registro {
       });
 
       if (error) {
-        this.mensaje = 'Ya existe un usuario registrado con ese correo.';
+        this.abrirModal('Error de registro', 'No se pudo crear el usuario. Verificá los datos ingresados.', 'error');
         return;
       }
 
       const usuarioAuth = data.user;
 
       if (!usuarioAuth) {
-        this.mensaje = 'No se pudo crear el usuario.';
+        this.abrirModal('Error de registro', 'No se pudo crear el usuario.', 'error');
         return;
       }
 
       if (usuarioAuth.identities && usuarioAuth.identities.length === 0) {
-        this.mensaje = 'Ya existe un usuario registrado con ese correo.';
+        this.abrirModal('Usuario existente', 'Ya existe un usuario registrado con ese correo.', 'error');
         return;
       }
 
@@ -85,18 +91,37 @@ export class Registro {
       });
 
       if (errorInsert) {
-        this.mensaje = 'No se pudieron guardar los datos del usuario.';
+        this.abrirModal('Error en base de datos', 'No se pudieron guardar los datos del usuario.', 'error');
         return;
       }
 
-      window.location.href = '/login';
+      await supabase.auth.signInWithPassword({
+        email: emailLimpio,
+        password: this.password
+      });
 
+      this.abrirModal('Registro exitoso', 'Tu usuario fue creado correctamente.', 'exito');
+
+      setTimeout(async () => {
+        await this.router.navigateByUrl('/');
+      }, 900);
     } catch (error) {
       console.log('Error en registro:', error);
-      this.mensaje = 'No se pudo completar el registro.';
+      this.abrirModal('Error inesperado', 'No se pudo completar el registro.', 'error');
     } finally {
       this.cargando = false;
       this.cdr.detectChanges();
     }
+  }
+
+  abrirModal(titulo: string, mensaje: string, tipo: 'exito' | 'error' | 'info') {
+    this.modalTitulo = titulo;
+    this.modalMensaje = mensaje;
+    this.modalTipo = tipo;
+    this.modalVisible = true;
+  }
+
+  cerrarModal() {
+    this.modalVisible = false;
   }
 }
