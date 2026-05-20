@@ -1,93 +1,101 @@
 .barra {
   min-height: 72px;
   padding: 0 6%;
-  background: #0b1220;
-  border-bottom: 1px solid #334155;
+  background: rgba(15, 23, 42, 0.96);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.25);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 18px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
 }
 
 .marca {
-  color: #f59e0b;
-  font-size: 23px;
-  font-weight: 800;
-  text-decoration: none;
   display: flex;
   align-items: center;
   gap: 10px;
+  color: #f59e0b;
+  font-size: 22px;
+  font-weight: bold;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.logo-app {
-  width: 40px;
-  height: 40px;
+.marca img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
   object-fit: cover;
-  border-radius: 12px;
-  border: 1px solid #f59e0b;
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 18px;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
 .nav a {
-  color: #f8fafc;
-  font-weight: 700;
+  color: #e5e7eb;
+  font-weight: bold;
   text-decoration: none;
-  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: 0.2s ease;
 }
 
 .nav a:hover {
-  color: #f59e0b;
-}
-
-.usuario-header {
-  color: #cbd5e1;
-  font-size: 13px;
-  border-left: 1px solid #475569;
-  padding-left: 14px;
-  max-width: 190px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.salir {
-  background: transparent;
-  color: #f59e0b;
-  border: 1px solid #f59e0b;
-  border-radius: 9px;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-weight: 700;
-}
-
-.salir:hover {
-  background: #f59e0b;
   color: #111827;
+  background: #f59e0b;
 }
 
-.contenido-principal {
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.usuario span {
+  color: #f8fafc;
+  font-weight: bold;
+}
+
+.usuario button {
+  border: none;
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  color: white;
+  font-weight: bold;
+  padding: 9px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.usuario button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+main {
   min-height: calc(100vh - 72px);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .barra {
     flex-direction: column;
-    gap: 14px;
     padding: 16px;
   }
 
   .nav {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 13px;
+    width: 100%;
   }
 
-  .usuario-header {
-    border-left: none;
-    padding-left: 0;
+  .usuario {
+    width: 100%;
+    justify-content: center;
   }
 }
