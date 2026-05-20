@@ -1,32 +1,47 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-
+import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { supabase } from './services/supabase';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App implements OnInit, OnDestroy {
   estaLogueado = false;
-  emailUsuario = '';
   nombreUsuario = '';
+  emailUsuario = '';
+  menuAbierto = false;
+  cerrandoSesion = false;
 
-  private authSubscription: any;
+  authSubscription: any;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private zone: NgZone
+  ) {}
 
   async ngOnInit() {
-    await this.obtenerSesion();
+    await this.actualizarUsuario();
 
-    const { data } = supabase.auth.onAuthStateChange(() => {
-      setTimeout(async () => {
-        await this.obtenerSesion();
-      }, 0);
+    const { data } = supabase.auth.onAuthStateChange(async (event) => {
+      if (event === 'SIGNED_OUT') {
+        this.zone.run(() => {
+          this.estaLogueado = false;
+          this.nombreUsuario = '';
+          this.emailUsuario = '';
+          this.menuAbierto = false;
+          this.cerrandoSesion = false;
+          this.cdr.detectChanges();
+        });
+
+        return;
+      }
+
+      await this.actualizarUsuario();
     });
 
     this.authSubscription = data.subscription;
@@ -38,21 +53,23 @@ export class App implements OnInit, OnDestroy {
     }
   }
 
-  async obtenerSesion() {
-    const { data, error } = await supabase.auth.getSession();
+  async actualizarUsuario() {
+    const { data } = await supabase.auth.getSession();
 
-    if (error || !data.session || !data.session.user) {
-      this.limpiarSesion();
+    this.zone.run(async () => {
+      if (data.session && data.session.user) {
+        this.estaLogueado = true;
+        this.emailUsuario = data.session.user.email || '';
+        this.nombreUsuario = await this.obtenerNombreUsuario(data.session.user.id, this.emailUsuario);
+      } else {
+        this.estaLogueado = false;
+        this.emailUsuario = '';
+        this.nombreUsuario = '';
+        this.menuAbierto = false;
+      }
+
       this.cdr.detectChanges();
-      return;
-    }
-
-    this.estaLogueado = true;
-    this.emailUsuario = data.session.user.email || '';
-
-    await this.obtenerNombreUsuario(data.session.user.id, this.emailUsuario);
-
-    this.cdr.detectChanges();
+    });
   }
 
   async obtenerNombreUsuario(idUsuario: string, email: string) {
@@ -63,14 +80,9 @@ export class App implements OnInit, OnDestroy {
       .maybeSingle();
 
     if (!error && data && data.nombre) {
-      this.nombreUsuario = data.nombre;
-      return;
+      return data.nombre;
     }
 
-    this.nombreUsuario = this.obtenerNombreRapido(email);
-  }
-
-  obtenerNombreRapido(email: string) {
     if (email === 'jugador1@test.com') {
       return 'Jugador 1';
     }
@@ -86,39 +98,107 @@ export class App implements OnInit, OnDestroy {
     return email;
   }
 
-  async cerrarSesion() {
-    this.limpiarSesion();
-    this.cdr.detectChanges();
+  toggleMenu() {
+    if (this.cerrandoSesion) {
+      return;
+    }
 
-    await supabase.auth.signOut();
-
-    this.borrarSesionLocalSupabase();
-
-    window.location.href = '/';
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    this.menuAbierto = !this.menuAbierto;
   }
 
-  borrarSesionLocalSupabase() {
-    const clavesParaBorrar: string[] = [];
+  cerrarMenu() {
+    this.menuAbierto = false;
+  }
+
+  navegar(ruta: string) {
+    if (this.cerrandoSesion) {
+      return;
+    }
+
+    this.menuAbierto = false;
+    this.cdr.detectChanges();
+
+    this.router.navigateByUrl(ruta);
+  }
+
+  async cerrarSesion(event?: Event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (this.cerrandoSesion) {
+      return;
+    }
+
+    this.cerrandoSesion = true;
+    this.menuAbierto = false;
+    this.estaLogueado = false;
+    this.nombreUsuario = '';
+    this.emailUsuario = '';
+
+    this.cdr.detectChanges();
+
+    try {
+      await supabase.auth.signOut({ scope: 'global' });
+    } catch (error) {
+      console.log('Error cerrando sesión:', error);
+    }
+
+    this.limpiarStorageSupabase();
+
+    this.zone.run(() => {
+      this.estaLogueado = false;
+      this.nombreUsuario = '';
+      this.emailUsuario = '';
+      this.menuAbierto = false;
+      this.cdr.detectChanges();
+    });
+
+    window.location.href = '/';
+  }
+
+  limpiarStorageSupabase() {
+    const clavesLocalStorage: string[] = [];
 
     for (let i = 0; i < localStorage.length; i++) {
       const clave = localStorage.key(i);
 
-      if (clave && clave.startsWith('sb-')) {
-        clavesParaBorrar.push(clave);
+      if (
+        clave &&
+        (
+          clave.includes('supabase') ||
+          clave.includes('sb-') ||
+          clave.includes('auth-token')
+        )
+      ) {
+        clavesLocalStorage.push(clave);
       }
     }
 
-    for (let i = 0; i < clavesParaBorrar.length; i++) {
-      localStorage.removeItem(clavesParaBorrar[i]);
+    for (let i = 0; i < clavesLocalStorage.length; i++) {
+      localStorage.removeItem(clavesLocalStorage[i]);
     }
-  }
 
-  limpiarSesion() {
-    this.estaLogueado = false;
-    this.emailUsuario = '';
-    this.nombreUsuario = '';
+    const clavesSessionStorage: string[] = [];
+
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const clave = sessionStorage.key(i);
+
+      if (
+        clave &&
+        (
+          clave.includes('supabase') ||
+          clave.includes('sb-') ||
+          clave.includes('auth-token')
+        )
+      ) {
+        clavesSessionStorage.push(clave);
+      }
+    }
+
+    for (let i = 0; i < clavesSessionStorage.length; i++) {
+      sessionStorage.removeItem(clavesSessionStorage[i]);
+    }
   }
 }

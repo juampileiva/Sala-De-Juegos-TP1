@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ResultadosService } from '../../services/resultados.service';
 
@@ -49,7 +49,10 @@ export class Preguntados implements OnInit {
   tiempoInicio = 0;
   resultadoGuardado = false;
 
-  constructor(private resultadosService: ResultadosService) {}
+  constructor(
+    private resultadosService: ResultadosService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   async ngOnInit() {
     await this.iniciarJuego();
@@ -70,6 +73,7 @@ export class Preguntados implements OnInit {
     this.mensaje = '';
     this.tiempoInicio = Date.now();
     this.resultadoGuardado = false;
+    this.cdr.detectChanges();
 
     try {
       const respuesta = await fetch(
@@ -92,6 +96,7 @@ export class Preguntados implements OnInit {
       this.error = 'No se pudo cargar Preguntados. Revisá la conexión o intentá de nuevo.';
     } finally {
       this.cargando = false;
+      this.cdr.detectChanges();
     }
   }
 
@@ -230,6 +235,8 @@ export class Preguntados implements OnInit {
       this.errores++;
       this.mensaje = 'Incorrecto. La respuesta correcta era ' + pregunta.respuestaCorrecta + '.';
     }
+
+    this.cdr.detectChanges();
   }
 
   siguientePregunta() {
@@ -242,6 +249,7 @@ export class Preguntados implements OnInit {
     this.opcionElegida = '';
     this.respondio = false;
     this.mensaje = '';
+    this.cdr.detectChanges();
   }
 
   finalizarJuego() {
@@ -255,6 +263,7 @@ export class Preguntados implements OnInit {
     }
 
     this.guardarResultado();
+    this.cdr.detectChanges();
   }
 
   claseOpcion(opcion: string) {

@@ -30,7 +30,7 @@
         {{ error }}
       </div>
 
-      <div class="mensajes" #contenedorMensajes *ngIf="!cargando">
+      <div class="mensajes" #contenedorMensajes *ngIf="!cargando && !error">
         <div
           class="mensaje"
           *ngFor="let mensaje of mensajes"
@@ -38,8 +38,8 @@
           [class.otro]="!esMensajePropio(mensaje)">
 
           <div class="mensaje-header">
-            <strong>{{ mensaje.nombre }}</strong>
-            <span>{{ formatearFecha(mensaje.creado_en) }}</span>
+            <strong>{{ mensaje.nombre || mensaje.email }}</strong>
+            <span>{{ formatearFecha(mensaje) }}</span>
           </div>
 
           <p>{{ mensaje.mensaje }}</p>
