@@ -1,0 +1,38 @@
+<section class="pantalla-juego">
+  <div class="contenedor-juego">
+    <div class="encabezado">
+      <div>
+        <p class="subtitulo">Sprint 4</p>
+        <h1>No explotes</h1>
+        <p>Juego propio: arriesgá para sumar puntos, pero si explotás perdés todo.</p>
+      </div>
+
+      <a routerLink="/" class="volver">Volver al inicio</a>
+    </div>
+
+    <div class="panel">
+      <div class="bomba" [class.exploto]="exploto">
+        {{ exploto ? '💥' : '💣' }}
+      </div>
+
+      <div class="info">
+        <div class="estado">
+          <span>Puntaje: {{ puntaje }}</span>
+          <span>Ronda: {{ ronda }} / {{ maxRondas }}</span>
+          <span>Riesgo: {{ probabilidadExplosion }}%</span>
+        </div>
+
+        <p class="mensaje">{{ mensaje }}</p>
+
+        <div class="acciones" *ngIf="!juegoTerminado">
+          <button type="button" (click)="arriesgar()">Arriesgar</button>
+          <button type="button" class="secundario" (click)="plantarse()">Plantarse</button>
+        </div>
+
+        <button class="reiniciar" type="button" *ngIf="juegoTerminado" (click)="iniciarJuego()">
+          Jugar otra vez
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

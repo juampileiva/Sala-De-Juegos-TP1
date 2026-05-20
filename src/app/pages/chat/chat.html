@@ -1,0 +1,68 @@
+<section class="pantalla-chat">
+  <div class="contenedor-chat">
+    <div class="encabezado">
+      <div>
+        <p class="subtitulo">Sprint 3</p>
+        <h1>Chat global</h1>
+        <p>Sala común para usuarios registrados. Los mensajes se actualizan en tiempo real.</p>
+      </div>
+
+      <a routerLink="/" class="volver">Volver al inicio</a>
+    </div>
+
+    <div class="chat-card">
+      <div class="barra-chat">
+        <div>
+          <strong>Usuario:</strong>
+          <span>{{ nombreUsuario }}</span>
+        </div>
+
+        <div class="estado-online">
+          En línea
+        </div>
+      </div>
+
+      <div class="cargando" *ngIf="cargando">
+        Cargando mensajes...
+      </div>
+
+      <div class="error" *ngIf="error">
+        {{ error }}
+      </div>
+
+      <div class="mensajes" #contenedorMensajes *ngIf="!cargando">
+        <div
+          class="mensaje"
+          *ngFor="let mensaje of mensajes"
+          [class.propio]="esMensajePropio(mensaje)"
+          [class.otro]="!esMensajePropio(mensaje)">
+
+          <div class="mensaje-header">
+            <strong>{{ mensaje.nombre }}</strong>
+            <span>{{ formatearFecha(mensaje.creado_en) }}</span>
+          </div>
+
+          <p>{{ mensaje.mensaje }}</p>
+        </div>
+
+        <div class="sin-mensajes" *ngIf="mensajes.length === 0">
+          Todavía no hay mensajes. Escribí el primero.
+        </div>
+      </div>
+
+      <form class="formulario" (ngSubmit)="enviarMensaje()">
+        <input
+          type="text"
+          name="mensajeNuevo"
+          [(ngModel)]="mensajeNuevo"
+          placeholder="Escribí un mensaje..."
+          maxlength="250"
+          autocomplete="off" />
+
+        <button type="submit" [disabled]="enviando || mensajeNuevo.trim().length === 0">
+          {{ enviando ? 'Enviando...' : 'Enviar' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

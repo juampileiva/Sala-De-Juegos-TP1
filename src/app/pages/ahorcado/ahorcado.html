@@ -1,0 +1,61 @@
+<section class="pantalla-juego">
+  <div class="contenedor-juego">
+    <div class="encabezado">
+      <div>
+        <p class="subtitulo">Sprint 3</p>
+        <h1>Ahorcado</h1>
+        <p>Descubrí la palabra oculta antes de quedarte sin intentos.</p>
+      </div>
+
+      <a routerLink="/" class="volver">Volver al inicio</a>
+    </div>
+
+    <div class="panel">
+      <div class="dibujo">
+        <div class="base"></div>
+        <div class="poste"></div>
+        <div class="techo"></div>
+        <div class="soga"></div>
+
+        <div class="cabeza" *ngIf="errores >= 1"></div>
+        <div class="cuerpo" *ngIf="errores >= 2"></div>
+        <div class="brazo izquierdo" *ngIf="errores >= 3"></div>
+        <div class="brazo derecho" *ngIf="errores >= 4"></div>
+        <div class="pierna izquierda" *ngIf="errores >= 5"></div>
+        <div class="pierna derecha" *ngIf="errores >= 6"></div>
+      </div>
+
+      <div class="info">
+        <p class="pista"><strong>Pista:</strong> {{ pistaActual }}</p>
+
+        <div class="palabra">
+          {{ obtenerPalabraVisible() }}
+        </div>
+
+        <div class="estado">
+          <span>Errores: {{ errores }} / {{ maxErrores }}</span>
+          <span>Intentos restantes: {{ obtenerIntentosRestantes() }}</span>
+          <span>Puntaje: {{ obtenerPuntaje() }}</span>
+        </div>
+
+        <div class="mensaje" *ngIf="juegoTerminado" [class.gano]="gano" [class.perdio]="!gano">
+          {{ mensaje }}
+        </div>
+
+        <button class="reiniciar" type="button" (click)="iniciarJuego()" *ngIf="juegoTerminado">
+          Jugar otra vez
+        </button>
+      </div>
+    </div>
+
+    <div class="teclado">
+      <button
+        type="button"
+        *ngFor="let letra of letras"
+        (click)="elegirLetra(letra)"
+        [disabled]="juegoTerminado || letraYaUsada(letra)">
+        {{ letra }}
+      </button>
+    </div>
+  </div>
+</section>

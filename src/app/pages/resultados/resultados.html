@@ -1,0 +1,55 @@
+<section class="pantalla-resultados">
+  <div class="contenedor">
+    <div class="encabezado">
+      <div>
+        <p class="subtitulo">Sprint 4</p>
+        <h1>Resultados</h1>
+        <p>Tablas ordenadas por mejor puntaje y menor tiempo.</p>
+      </div>
+
+      <a routerLink="/" class="volver">Volver al inicio</a>
+    </div>
+
+    <div class="panel" *ngIf="cargando">
+      Cargando resultados...
+    </div>
+
+    <div class="panel error" *ngIf="!cargando && error">
+      {{ error }}
+    </div>
+
+    <div class="grid" *ngIf="!cargando && !error">
+      <article class="tabla-card" *ngFor="let juego of juegos">
+        <h2>{{ juego }}</h2>
+
+        <div class="tabla-contenedor" *ngIf="obtenerResultadosPorJuego(juego).length > 0">
+          <table>
+            <thead>
+              <tr>
+                <th>Jugador</th>
+                <th>Resultado</th>
+                <th>Puntaje</th>
+                <th>Tiempo</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let resultado of obtenerResultadosPorJuego(juego)">
+                <td>{{ resultado.nombre || resultado.email }}</td>
+                <td>{{ resultado.resultado }}</td>
+                <td>{{ resultado.puntaje }}</td>
+                <td>{{ resultado.tiempo_segundos }}s</td>
+                <td>{{ formatearFecha(resultado.creado_en) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="sin-datos" *ngIf="obtenerResultadosPorJuego(juego).length === 0">
+          Todavía no hay resultados cargados para este juego.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>

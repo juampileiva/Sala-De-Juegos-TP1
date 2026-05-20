@@ -1,0 +1,44 @@
+<section class="pantalla-juego">
+  <div class="contenedor-juego">
+    <div class="encabezado">
+      <div>
+        <p class="subtitulo">Sprint 3</p>
+        <h1>Mayor o Menor</h1>
+        <p>Adiviná si la próxima carta será mayor o menor que la actual.</p>
+      </div>
+
+      <a routerLink="/" class="volver">Volver al inicio</a>
+    </div>
+
+    <div class="tablero">
+      <div class="carta">
+        <span class="palo">{{ cartaActual.palo }}</span>
+        <strong>{{ cartaActual.nombre }}</strong>
+        <span class="palo abajo">{{ cartaActual.palo }}</span>
+      </div>
+
+      <div class="datos">
+        <h2>Carta actual</h2>
+        <p>Tenés que adivinar si la próxima carta será mayor o menor.</p>
+
+        <div class="estado">
+          <span>Puntaje: {{ puntaje }}</span>
+          <span>Ronda: {{ rondas }} / {{ maxRondas }}</span>
+        </div>
+
+        <div class="acciones" *ngIf="!juegoTerminado">
+          <button type="button" (click)="elegir('mayor')">Mayor</button>
+          <button type="button" (click)="elegir('menor')">Menor</button>
+        </div>
+
+        <div class="mensaje" *ngIf="mensaje" [class.gano]="gano && juegoTerminado" [class.perdio]="!gano && juegoTerminado">
+          {{ mensaje }}
+        </div>
+
+        <button class="reiniciar" type="button" (click)="iniciarJuego()" *ngIf="juegoTerminado">
+          Jugar otra vez
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

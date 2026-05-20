@@ -1,0 +1,62 @@
+<section class="pantalla-juego">
+  <div class="contenedor-juego">
+    <div class="encabezado">
+      <div>
+        <p class="subtitulo">Sprint 4</p>
+        <h1>Preguntados</h1>
+        <p>Respondé preguntas de capitales usando datos reales de una API externa.</p>
+      </div>
+
+      <a routerLink="/" class="volver">Volver al inicio</a>
+    </div>
+
+    <div class="panel" *ngIf="cargando">
+      <p class="cargando">Cargando preguntas desde la API...</p>
+    </div>
+
+    <div class="panel error" *ngIf="!cargando && error">
+      <p>{{ error }}</p>
+      <button type="button" (click)="iniciarJuego()">Intentar otra vez</button>
+    </div>
+
+    <div class="panel" *ngIf="!cargando && !error && !juegoTerminado">
+      <div class="estado">
+        <span>Pregunta {{ indicePregunta + 1 }} / {{ preguntas.length }}</span>
+        <span>Puntaje: {{ puntaje }}</span>
+        <span>Aciertos: {{ aciertos }}</span>
+      </div>
+
+      <h2>{{ obtenerPreguntaActual().pregunta }}</h2>
+
+      <div class="opciones">
+        <button
+          type="button"
+          *ngFor="let opcion of obtenerPreguntaActual().opciones"
+          (click)="responder(opcion)"
+          [disabled]="respondio"
+          [ngClass]="claseOpcion(opcion)">
+          {{ opcion }}
+        </button>
+      </div>
+
+      <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+
+      <button class="principal" type="button" *ngIf="respondio" (click)="siguientePregunta()">
+        {{ indicePregunta + 1 >= preguntas.length ? 'Finalizar juego' : 'Siguiente pregunta' }}
+      </button>
+    </div>
+
+    <div class="panel final" *ngIf="juegoTerminado">
+      <h2>{{ gano ? 'Ganaste' : 'Perdiste' }}</h2>
+      <p>{{ mensaje }}</p>
+
+      <div class="estado">
+        <span>Puntaje final: {{ puntaje }}</span>
+        <span>Aciertos: {{ aciertos }}</span>
+        <span>Errores: {{ errores }}</span>
+      </div>
+
+      <button class="principal" type="button" (click)="iniciarJuego()">Jugar otra vez</button>
+    </div>
+  </div>
+</section>
