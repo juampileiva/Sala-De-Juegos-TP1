@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { supabase } from '../../services/supabase';
 
@@ -11,7 +11,8 @@ interface ResultadoJuego {
   resultado: string;
   puntaje: number;
   tiempo_segundos: number;
-  creado_en: string;
+  created_at?: string;
+  creado_en?: string;
 }
 
 @Component({
@@ -27,6 +28,8 @@ export class Resultados implements OnInit {
 
   juegos = ['Ahorcado', 'Mayor o Menor', 'Preguntados', 'No explotes'];
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   async ngOnInit() {
     await this.cargarResultados();
   }
@@ -34,6 +37,7 @@ export class Resultados implements OnInit {
   async cargarResultados() {
     this.cargando = true;
     this.error = '';
+    this.cdr.detectChanges();
 
     const { data, error } = await supabase
       .from('resultados_juegos')
@@ -43,13 +47,16 @@ export class Resultados implements OnInit {
       .limit(200);
 
     if (error) {
+      console.log('Error cargando resultados:', error);
       this.error = 'No se pudieron cargar los resultados.';
       this.cargando = false;
+      this.cdr.detectChanges();
       return;
     }
 
     this.resultados = data || [];
     this.cargando = false;
+    this.cdr.detectChanges();
   }
 
   obtenerResultadosPorJuego(juego: string) {
@@ -64,8 +71,30 @@ export class Resultados implements OnInit {
     return lista;
   }
 
-  formatearFecha(fecha: string) {
-    const fechaResultado = new Date(fecha);
+  obtenerFechaResultado(resultado: ResultadoJuego) {
+    if (resultado.created_at) {
+      return resultado.created_at;
+    }
+
+    if (resultado.creado_en) {
+      return resultado.creado_en;
+    }
+
+    return '';
+  }
+
+  formatearFecha(resultado: ResultadoJuego) {
+    const fechaTexto = this.obtenerFechaResultado(resultado);
+
+    if (!fechaTexto) {
+      return 'Sin fecha';
+    }
+
+    const fechaResultado = new Date(fechaTexto);
+
+    if (isNaN(fechaResultado.getTime())) {
+      return 'Sin fecha';
+    }
 
     return fechaResultado.toLocaleString('es-AR', {
       day: '2-digit',

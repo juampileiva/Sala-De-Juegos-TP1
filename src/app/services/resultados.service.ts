@@ -22,7 +22,7 @@ export class ResultadosService {
     const email = usuario.email || '';
     const nombre = await this.obtenerNombreUsuario(usuario.id, email);
 
-    await supabase.from('resultados_juegos').insert({
+    const { error } = await supabase.from('resultados_juegos').insert({
       usuario_id: usuario.id,
       email: email,
       nombre: nombre,
@@ -30,8 +30,13 @@ export class ResultadosService {
       resultado: resultado,
       puntaje: puntaje,
       tiempo_segundos: tiempoSegundos,
-      detalle: detalle
+      detalle: detalle,
+      created_at: new Date().toISOString()
     });
+
+    if (error) {
+      console.log('Error guardando resultado:', error);
+    }
   }
 
   private async obtenerNombreUsuario(idUsuario: string, email: string) {

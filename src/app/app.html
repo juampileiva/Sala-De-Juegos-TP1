@@ -1,31 +1,53 @@
 <header class="barra">
-  <a class="marca" routerLink="/">
+  <button type="button" class="marca boton-marca" (click)="navegar('/')">
     <img src="/favicon.jpg" alt="Logo Sala de Juegos" />
     <span>Sala de Juegos</span>
-  </a>
+  </button>
 
-  <nav class="nav">
-    <a routerLink="/">Inicio</a>
-    <a routerLink="/quien-soy">Quién soy</a>
+  <div class="acciones-header">
+    <div class="usuario" *ngIf="estaLogueado">
+      <span>{{ nombreUsuario }}</span>
+    </div>
 
-    <ng-container *ngIf="estaLogueado">
-      <a routerLink="/ahorcado">Ahorcado</a>
-      <a routerLink="/mayor-menor">Mayor o menor</a>
-      <a routerLink="/preguntados">Preguntados</a>
-      <a routerLink="/no-explotes">No explotes</a>
-      <a routerLink="/resultados">Resultados</a>
-      <a routerLink="/chat">Chat</a>
-    </ng-container>
+    <div class="usuario cerrando" *ngIf="cerrandoSesion">
+      <span>Cerrando sesión...</span>
+    </div>
 
-    <ng-container *ngIf="!estaLogueado">
-      <a routerLink="/login">Iniciar sesión</a>
-      <a routerLink="/registro">Registro</a>
-    </ng-container>
-  </nav>
+    <div class="menu-contenedor">
+      <button type="button" class="boton-menu" (click)="toggleMenu()" [disabled]="cerrandoSesion">
+        <span class="icono-menu">☰</span>
+        <span>Menú</span>
+      </button>
 
-  <div class="usuario" *ngIf="estaLogueado">
-    <span>{{ nombreUsuario }}</span>
-    <button type="button" (click)="cerrarSesion()">Cerrar sesión</button>
+      <nav class="menu-desplegable" *ngIf="menuAbierto">
+        <button type="button" (click)="navegar('/')">Inicio</button>
+        <button type="button" (click)="navegar('/quien-soy')">Quién soy</button>
+
+        <ng-container *ngIf="estaLogueado">
+          <div class="separador"></div>
+
+          <button type="button" (click)="navegar('/ahorcado')">Ahorcado</button>
+          <button type="button" (click)="navegar('/mayor-menor')">Mayor o menor</button>
+          <button type="button" (click)="navegar('/preguntados')">Preguntados</button>
+          <button type="button" (click)="navegar('/no-explotes')">No explotes</button>
+          <button type="button" (click)="navegar('/resultados')">Resultados</button>
+          <button type="button" (click)="navegar('/chat')">Chat</button>
+
+          <div class="separador"></div>
+
+          <button type="button" class="cerrar-sesion" (click)="cerrarSesion($event)">
+            Cerrar sesión
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="!estaLogueado">
+          <div class="separador"></div>
+
+          <button type="button" (click)="navegar('/login')">Iniciar sesión</button>
+          <button type="button" (click)="navegar('/registro')">Registro</button>
+        </ng-container>
+      </nav>
+    </div>
   </div>
 </header>
 

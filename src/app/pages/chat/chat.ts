@@ -10,7 +10,8 @@ interface MensajeChat {
   email: string;
   nombre: string;
   mensaje: string;
-  creado_en: string;
+  created_at?: string;
+  creado_en?: string;
 }
 
 @Component({
@@ -56,6 +57,8 @@ export class Chat implements OnInit, OnDestroy {
     this.usuarioId = data.session.user.id;
     this.emailUsuario = data.session.user.email || '';
     this.nombreUsuario = await this.obtenerNombreUsuario(this.usuarioId, this.emailUsuario);
+
+    this.cdr.detectChanges();
   }
 
   async obtenerNombreUsuario(idUsuario: string, email: string) {
@@ -87,21 +90,25 @@ export class Chat implements OnInit, OnDestroy {
   async cargarMensajes() {
     this.cargando = true;
     this.error = '';
+    this.cdr.detectChanges();
 
     const { data, error } = await supabase
       .from('mensajes_chat')
       .select('*')
-      .order('creado_en', { ascending: true })
-      .limit(80);
+      .order('created_at', { ascending: true })
+      .limit(100);
 
     if (error) {
+      console.log('Error cargando mensajes:', error);
       this.error = 'No se pudieron cargar los mensajes.';
       this.cargando = false;
+      this.cdr.detectChanges();
       return;
     }
 
     this.mensajes = data || [];
     this.cargando = false;
+    this.cdr.detectChanges();
 
     setTimeout(() => {
       this.bajarScroll();
@@ -140,29 +147,55 @@ export class Chat implements OnInit, OnDestroy {
 
     this.enviando = true;
     this.error = '';
+    this.cdr.detectChanges();
 
     const { error } = await supabase.from('mensajes_chat').insert({
       usuario_id: this.usuarioId,
       email: this.emailUsuario,
       nombre: this.nombreUsuario,
-      mensaje: texto
+      mensaje: texto,
+      created_at: new Date().toISOString()
     });
 
     if (error) {
+      console.log('Error enviando mensaje:', error);
       this.error = 'No se pudo enviar el mensaje.';
     } else {
       this.mensajeNuevo = '';
     }
 
     this.enviando = false;
+    this.cdr.detectChanges();
   }
 
   esMensajePropio(mensaje: MensajeChat) {
     return mensaje.usuario_id === this.usuarioId;
   }
 
-  formatearFecha(fecha: string) {
-    const fechaMensaje = new Date(fecha);
+  obtenerFechaMensaje(mensaje: MensajeChat) {
+    if (mensaje.created_at) {
+      return mensaje.created_at;
+    }
+
+    if (mensaje.creado_en) {
+      return mensaje.creado_en;
+    }
+
+    return '';
+  }
+
+  formatearFecha(mensaje: MensajeChat) {
+    const fechaTexto = this.obtenerFechaMensaje(mensaje);
+
+    if (!fechaTexto) {
+      return 'Sin fecha';
+    }
+
+    const fechaMensaje = new Date(fechaTexto);
+
+    if (isNaN(fechaMensaje.getTime())) {
+      return 'Sin fecha';
+    }
 
     return fechaMensaje.toLocaleString('es-AR', {
       day: '2-digit',
